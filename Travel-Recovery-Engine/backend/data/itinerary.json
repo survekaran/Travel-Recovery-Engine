@@ -1,0 +1,70 @@
+{
+  "trip": {
+    "id": "TRIP001",
+    "traveler": "Rahul Sharma",
+    "name": "Mumbai to Delhi Trip",
+    "start_date": "2026-09-10",
+    "end_date": "2026-09-12"
+  },
+  "itinerary": [
+    {
+      "id": "FL001",
+      "type": "flight",
+      "name": "Mumbai to Delhi Flight",
+      "location": "Mumbai Airport",
+      "destination": "Delhi Airport",
+      "start_time": "2026-09-10T14:00:00",
+      "end_time": "2026-09-10T16:00:00",
+      "cost": 5000,
+      "status": "confirmed"
+    },
+    {
+      "id": "TR001",
+      "type": "transfer",
+      "name": "Airport to Hotel Transfer",
+      "location": "Delhi Airport",
+      "destination": "Delhi Hotel",
+      "start_time": "2026-09-10T16:30:00",
+      "end_time": "2026-09-10T17:30:00",
+      "cost": 800,
+      "status": "confirmed",
+      "depends_on": ["FL001"]
+    },
+    {
+      "id": "HT001",
+      "type": "hotel",
+      "name": "Delhi Grand Hotel",
+      "location": "New Delhi",
+      "destination": "New Delhi",
+      "start_time": "2026-09-10T18:00:00",
+      "end_time": "2026-09-11T10:00:00",
+      "cost": 4500,
+      "status": "confirmed",
+      "depends_on": ["TR001"]
+    },
+    {
+      "id": "DN001",
+      "type": "activity",
+      "name": "Dinner at Connaught Place",
+      "location": "Connaught Place, Delhi",
+      "destination": "Connaught Place, Delhi",
+      "start_time": "2026-09-10T20:00:00",
+      "end_time": "2026-09-10T21:30:00",
+      "cost": 1200,
+      "status": "confirmed",
+      "depends_on": ["HT001"]
+    },
+    {
+      "id": "AC001",
+      "type": "activity",
+      "name": "Delhi Heritage Tour",
+      "location": "Central Delhi",
+      "destination": "Central Delhi",
+      "start_time": "2026-09-11T11:00:00",
+      "end_time": "2026-09-11T14:00:00",
+      "cost": 1500,
+      "status": "confirmed",
+      "depends_on": ["HT001"]
+    }
+  ]
+}
