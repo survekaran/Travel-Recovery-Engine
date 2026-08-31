@@ -1,0 +1,335 @@
+.app {
+  min-height: 100vh;
+  width: 100%;
+
+  padding: 32px 48px 60px;
+
+  background: #f5f5f7;
+}
+
+/* HEADER */
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 100%;
+  max-width: 1400px;
+
+  margin: 0 auto 40px;
+}
+
+.header h1 {
+  margin: 0;
+
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -1px;
+
+  color: #1d1d1f;
+}
+
+.header p {
+  margin: 6px 0 0;
+
+  font-size: 15px;
+
+  color: #6e6e73;
+}
+
+.profile {
+  width: 48px;
+  height: 48px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #007aff;
+  color: white;
+
+  font-size: 17px;
+  font-weight: 600;
+
+  box-shadow: 0 6px 20px rgba(0, 122, 255, 0.25);
+}
+
+/* HERO */
+
+.hero-card {
+  width: 100%;
+  max-width: 1400px;
+
+  min-height: 220px;
+
+  margin: 0 auto 24px;
+  padding: 42px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  border-radius: 28px;
+
+  background: linear-gradient(
+    135deg,
+    #ffffff 0%,
+    #f0f5ff 100%
+  );
+
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.06);
+}
+
+.eyebrow {
+  display: block;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  letter-spacing: 1.5px;
+
+  color: #86868b;
+}
+
+.hero-card h2 {
+  margin: 14px 0 0;
+
+  font-size: 42px;
+  letter-spacing: -1.5px;
+
+  color: #1d1d1f;
+}
+
+.hero-card p {
+  margin: 14px 0 0;
+
+  font-size: 18px;
+
+  color: #6e6e73;
+}
+
+/* SYSTEM STATUS */
+
+.system-status {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 16px 22px;
+
+  white-space: nowrap;
+
+  border-radius: 30px;
+
+  background: rgba(255, 255, 255, 0.9);
+
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.status-dot {
+  width: 9px;
+  height: 9px;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background: #34c759;
+}
+
+/* STATISTICS */
+
+.stats-grid {
+  width: 100%;
+  max-width: 1400px;
+
+  margin: 0 auto;
+
+  display: grid;
+
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  gap: 24px;
+}
+
+.stat-card {
+  width: 100%;
+
+  padding: 30px;
+
+  border-radius: 24px;
+
+  background: white;
+
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.08);
+}
+
+.stat-card p {
+  margin: 0;
+
+  color: #6e6e73;
+
+  font-size: 16px;
+}
+
+.stat-card h3 {
+  margin: 14px 0 0;
+
+  font-size: 38px;
+
+  letter-spacing: -1px;
+
+  color: #1d1d1f;
+}
+
+/* BACKEND CONNECTION */
+
+.backend-card {
+  width: 100%;
+  max-width: 1400px;
+
+  margin: 24px auto 0;
+
+  padding: 24px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 18px;
+
+  border-radius: 24px;
+
+  background: white;
+
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+}
+
+.backend-icon {
+  width: 52px;
+  height: 52px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 24px;
+
+  border-radius: 16px;
+
+  background: #f2f2f7;
+}
+
+.backend-card h3 {
+  margin: 0 0 6px;
+
+  font-size: 17px;
+
+  color: #1d1d1f;
+}
+
+.backend-card p {
+  margin: 0;
+
+  color: #6e6e73;
+
+  font-size: 14px;
+}
+
+.connected-badge {
+  margin-left: auto;
+
+  padding: 8px 14px;
+
+  white-space: nowrap;
+
+  border-radius: 20px;
+
+  background: #e8f9ee;
+
+  color: #248a3d;
+
+  font-size: 13px;
+
+  font-weight: 600;
+}
+
+/* TABLET */
+
+@media (max-width: 1000px) {
+  .app {
+    padding: 28px 24px 50px;
+  }
+
+  .hero-card {
+    padding: 32px;
+  }
+}
+
+/* MOBILE */
+
+@media (max-width: 800px) {
+  .app {
+    padding: 24px 18px;
+  }
+
+  .header {
+    margin-bottom: 28px;
+  }
+
+  .header h1 {
+    font-size: 26px;
+  }
+
+  .hero-card {
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 30px;
+
+    padding: 30px;
+
+    min-height: auto;
+  }
+
+  .hero-card h2 {
+    font-size: 32px;
+  }
+
+  .hero-card p {
+    font-size: 16px;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .backend-card {
+    flex-wrap: wrap;
+  }
+
+  .connected-badge {
+    margin-left: 70px;
+  }
+}
