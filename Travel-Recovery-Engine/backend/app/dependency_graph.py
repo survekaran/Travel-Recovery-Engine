@@ -18,3 +18,14 @@ def build_dependency_graph(itinerary):
             graph.add_edge(dependency_id, item["id"])
 
     return graph
+
+
+def get_affected_items(graph, disrupted_item_id):
+    if disrupted_item_id not in graph:
+        return []
+
+    affected_items = list(
+        nx.descendants(graph, disrupted_item_id)
+    )
+
+    return affected_items
