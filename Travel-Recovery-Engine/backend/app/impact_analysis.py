@@ -10,11 +10,50 @@ def parse_time(time_string):
 def calculate_delayed_arrival(item, delay_minutes):
     original_arrival = parse_time(item["end_time"])
 
-    new_arrival = original_arrival + timedelta(
+    return original_arrival + timedelta(
         minutes=delay_minutes
     )
 
-    return new_arrival
+
+def check_time_constraint(
+    arrival_time,
+    dependent_item
+):
+    dependent_start = parse_time(
+        dependent_item["start_time"]
+    )
+
+    buffer_minutes = dependent_item.get(
+        "buffer_minutes",
+        0
+    )
+
+    latest_acceptable_arrival = (
+        dependent_start
+        - timedelta(minutes=buffer_minutes)
+    )
+
+    if arrival_time > dependent_start:
+        return {
+            "status": "affected",
+            "reason": (
+                "Arrival occurs after the booking starts"
+            )
+        }
+
+    if arrival_time > latest_acceptable_arrival:
+        return {
+            "status": "at_risk",
+            "reason": (
+                f"Only {int((dependent_start - arrival_time).total_seconds() / 60)} "
+                "minutes remain before the booking"
+            )
+        }
+
+    return {
+        "status": "safe",
+        "reason": "Sufficient time buffer remains"
+    }
 
 
 def analyze_cascading_impact(
@@ -42,60 +81,116 @@ def analyze_cascading_impact(
         delay_minutes
     )
 
-    # Find every item downstream from the disruption
-    affected_ids = list(
-        nx.descendants(graph, disrupted_item_id)
-    )
-
     impact_results = []
 
-    # Check each affected item
-    for item in itinerary:
+    # Process items in dependency order
+    affected_ids = list(
+        nx.descendants(
+            graph,
+            disrupted_item_id
+        )
+    )
 
-        if item["id"] not in affected_ids:
-            continue
+    # Keep track of the new effective arrival
+    effective_times = {
+        disrupted_item_id: new_arrival
+    }
 
-        dependencies = item.get("depends_on", [])
+    # Continue until all affected items are processed
+    remaining = set(affected_ids)
 
-        affected_dependency = None
+    while remaining:
 
-        for dependency_id in dependencies:
+        progress = False
 
-            # Direct dependency on the disrupted item
-            if dependency_id == disrupted_item_id:
-                affected_dependency = dependency_id
-                break
+        for item in itinerary:
 
-            # Dependency was already identified as affected
-            for result in impact_results:
-                if result["item_id"] == dependency_id:
-                    affected_dependency = dependency_id
+            item_id = item["id"]
+
+            if item_id not in remaining:
+                continue
+
+            dependencies = item.get(
+                "depends_on",
+                []
+            )
+
+            # We can only process this item
+            # after its dependencies have been processed
+            dependency_times = []
+
+            dependencies_ready = True
+
+            for dependency_id in dependencies:
+
+                if dependency_id in effective_times:
+                    dependency_times.append(
+                        effective_times[dependency_id]
+                    )
+                elif dependency_id in affected_ids:
+                    dependencies_ready = False
                     break
 
-            if affected_dependency:
-                break
+            if not dependencies_ready:
+                continue
 
-        if affected_dependency:
+            if not dependency_times:
+                continue
 
-            if affected_dependency == disrupted_item_id:
-                status = "affected"
-                reason = (
-                    "Disrupted item can no longer meet "
-                    "the booking time"
+            # Latest dependency arrival controls
+            # when this item can actually begin
+            actual_arrival = max(
+                dependency_times
+            )
+
+            result = check_time_constraint(
+                actual_arrival,
+                item
+            )
+
+            # Calculate how late this item may now begin
+            original_start = parse_time(
+                item["start_time"]
+            )
+
+            delay_from_original = max(
+                0,
+                int(
+                    (
+                        actual_arrival
+                        - original_start
+                    ).total_seconds() / 60
                 )
-            else:
-                status = "at_risk"
-                reason = (
-                    f"Dependency {affected_dependency} "
-                    "is already affected"
+            )
+
+            # Propagate the delay to downstream items
+            original_end = parse_time(
+                item["end_time"]
+            )
+
+            effective_end = (
+                original_end
+                + timedelta(
+                    minutes=delay_from_original
                 )
+            )
+
+            effective_times[item_id] = effective_end
 
             impact_results.append({
-                "item_id": item["id"],
+                "item_id": item_id,
                 "item_name": item["name"],
-                "status": status,
-                "reason": reason
+                "status": result["status"],
+                "reason": result["reason"],
+                "effective_time": effective_end.isoformat()
             })
+
+            remaining.remove(item_id)
+            progress = True
+
+        # Safety check to prevent an infinite loop
+        if not progress:
+            break
 
     return {
         "disrupted_item": disrupted_item_id,

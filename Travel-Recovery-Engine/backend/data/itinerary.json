@@ -28,6 +28,7 @@
       "end_time": "2026-09-10T17:30:00",
       "cost": 800,
       "status": "confirmed",
+      "buffer_minutes": 15,
       "depends_on": ["FL001"]
     },
     {
@@ -40,9 +41,10 @@
       "end_time": "2026-09-11T10:00:00",
       "cost": 4500,
       "status": "confirmed",
+      "buffer_minutes": 180,
       "depends_on": ["TR001"]
-    },
-    {
+    },   
+    {  
       "id": "DN001",
       "type": "activity",
       "name": "Dinner at Connaught Place",
@@ -52,6 +54,7 @@
       "end_time": "2026-09-10T21:30:00",
       "cost": 1200,
       "status": "confirmed",
+      "buffer_minutes": 60,
       "depends_on": ["HT001"]
     },
     {
@@ -64,6 +67,7 @@
       "end_time": "2026-09-11T14:00:00",
       "cost": 1500,
       "status": "confirmed",
+      "buffer_minutes": 30,
       "depends_on": ["HT001"]
     }
   ]
