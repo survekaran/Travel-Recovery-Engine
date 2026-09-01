@@ -1,4 +1,4 @@
-const API_BASE = "http://127.0.0.1:8000";
+const API_BASE = "https://travel-recovery-engine.onrender.com";
 
 // Fetch complete itinerary
 export async function getItinerary() {
