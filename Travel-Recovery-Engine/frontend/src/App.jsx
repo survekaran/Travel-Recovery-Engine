@@ -14,7 +14,7 @@ function App() {
   const [selectedRecovery, setSelectedRecovery] = useState(null);
   const [tripData, setTripData] = useState(null);
 
-  const API = "http://127.0.0.1:8000";
+  const API = "https://travel-recovery-engine.onrender.com";
 
   // Load itinerary when the application starts
   useEffect(() => {
